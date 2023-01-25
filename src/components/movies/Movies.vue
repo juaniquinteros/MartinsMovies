@@ -45,7 +45,7 @@
                     </div>
                 </div>
                 <div class="watched">
-                  <span class="badge rounded-pill watched-text" v-if="movie.watched">Watched</span>
+                  <span class="badge rounded-pill watched-text" v-if="ids.includes(movie.id)">Watched</span>
                 </div>
                 <div class="play">
                     <a class="video" @click="watch(movie.id)" href="#"><i class="fa-solid fa-play"></i></a>
@@ -103,9 +103,6 @@ export default {
   },
   methods: {
     async getMovies() {
-      if (localStorage.getItem("Movies"))
-        return JSON.parse(window.localStorage.getItem("Movies"));
-
       axios
         .get(
           "https://api.themoviedb.org/3/movie/popular?api_key=1e448e0dfcdbb565f5d329820065b4d2"
@@ -127,15 +124,17 @@ export default {
     },
 
     watch(idToFind) {
-      let film = this.movies.find(({ id }) => id === idToFind);
-      film.watched = true;
-
-      window.localStorage.setItem("Movies", JSON.stringify(this.movies));
-      this.historyWatched();
+/*       let film = this.movies.find(({ id }) => id === idToFind);
+      film.watched = true; */
+      this.ids = window.localStorage.getItem("watchedIds") ? JSON.parse(window.localStorage.getItem("watchedIds")) : [];
+      console.log('ea',this.ids)
+      this.ids.push(idToFind);
+      window.localStorage.setItem("watchedIds", JSON.stringify(this.ids));
+      this.historyWatched() 
     },
 
     historyWatched() {
-      this.movies = JSON.parse(window.localStorage.getItem("Movies"));
+      this.ids = JSON.parse(window.localStorage.getItem("watchedIds"));
     },
   },
 };
