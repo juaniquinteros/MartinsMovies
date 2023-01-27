@@ -45,7 +45,7 @@
                     </div>
                 </div>
                 <div class="watched">
-                  <span class="badge rounded-pill watched-text" v-if="ids.includes(movie.id)">Watched</span>
+                  <span class="badge rounded-pill watched-text" v-if="ids ? ids.includes(movie.id) : ''">Watched</span>
                 </div>
                 <div class="play">
                     <a class="video" @click="watch(movie.id)" href="#"><i class="fa-solid fa-play"></i></a>
